@@ -6,9 +6,13 @@ warnings.filterwarnings('ignore')
 face_tr = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 
 def det_gen(img):
-    em = DeepFace.analyze(img, actions=['age', 'gender', 'race', 'emotion'])
-    os.remove(img)
-    return em
+    try:
+        analysis = DeepFace.analyze(img, actions=['age', 'gender', 'race', 'emotion'], enforce_detection=False)
+        return analysis
+    except Exception as e:
+        print(f"Error during analysis: {e}")
+        return None
+
    
 
 video = cv2.VideoCapture(0)
